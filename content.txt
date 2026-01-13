@@ -1,0 +1,45 @@
+1. venv (Virtual Environment)
+Definition: venv is a tool in Python that creates a separate environment for each project.
+Purpose: Keeps project dependencies isolated, so different projects can use different package versions.
+
+Features:
+Own Python interpreter and libraries
+Prevents conflicts between packages
+Easy to activate and deactivate
+Safe to delete without affecting other projects
+
+Commands:
+
+Create a virtual environment:
+python -m venv myenv
+
+Activate environment:
+Windows: myenv\Scripts\activate
+
+Deactivate environment:
+deactivate
+
+
+2. pyenv (Python Version Manager)
+
+Definition: pyenv is a tool to install and manage multiple Python versions on the same system.
+Purpose: Allows switching between different Python versions for different projects.
+
+Features:
+Can set global, local, or shell-specific Python versions
+Supports older, newer, and patch versions of Python
+Can be combined with venv for project-specific environments
+
+Commands:
+
+Install Python version:
+pyenv install 3.12.0
+
+Set global default version:
+pyenv global 3.12.0
+
+Set Python version for current project:
+pyenv local 3.12.10
+
+List installed versions:
+pyenv versions

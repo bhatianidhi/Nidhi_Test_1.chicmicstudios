@@ -1,0 +1,12 @@
+2026-01-13 12:18:09 - INFO - Application started
+2026-01-13 12:18:09 - INFO - User 'Nidhi' logged in
+2026-01-13 12:18:09 - WARNING - Disk space low on server 'MainDB'
+2026-01-13 12:18:09 - ERROR - User 'Hema' failed to save file
+2026-01-13 12:18:09 - INFO - User 'Nidhi' uploaded 'report.pdf'
+2026-01-13 12:18:09 - WARNING - Memory usage high for application 'AnalyticsApp'
+2026-01-13 12:18:09 - CRITICAL - MainDB server is unreachable
+2026-01-13 12:18:09 - CRITICAL - AnalyticsApp crashed due to memory overflow
+2026-01-13 12:18:09 - INFO - Scheduled backup completed
+2026-01-13 12:18:09 - ERROR - Database connection timeout for 'MainDB'
+2026-01-13 12:18:09 - INFO - User 'Nikki' logged out
+2026-01-13 12:18:09 - INFO - Application shutdown

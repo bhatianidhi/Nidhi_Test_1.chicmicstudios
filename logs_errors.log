@@ -1,0 +1,29 @@
+Error log started
+Error log started
+---- Error log started ----
+Line 1: Invalid format -> 2026-01-01 INFO Application started
+Line 2: Invalid format -> 2026-01-02 INFO User login successful
+Line 3: Invalid format -> 2026-01-03 WARNING Disk space low
+Line 4: Invalid format -> 2026-01-04 INFO File uploaded
+Line 5: Invalid format -> 2026-01-05 ERROR Database connection failed
+Line 6: Invalid format -> 2026-01-06 INFO Retry connection
+Line 7: Invalid format -> 2026-01-07 WARNING High memory usage
+Line 8: Invalid format -> 2026-01-08 INFO Scheduled task executed
+Line 9: Invalid format -> 2026-01-09 ERROR Timeout while reading data
+Line 10: Invalid format -> 2026-01-10 INFO Application shutdown
+No valid log entries found.
+---- Error log started ----
+Line 1: Invalid format -> 2026-01-01 INFO Application started
+Line 2: Invalid format -> 2026-01-02 INFO User login successful
+Line 3: Invalid format -> 2026-01-03 WARNING Disk space low
+Line 4: Invalid format -> 2026-01-04 INFO File uploaded
+Line 5: Invalid format -> 2026-01-05 ERROR Database connection failed
+Line 6: Invalid format -> 2026-01-06 INFO Retry connection
+Line 7: Invalid format -> 2026-01-07 WARNING High memory usage
+Line 8: Invalid format -> 2026-01-08 INFO Scheduled task executed
+Line 9: Invalid format -> 2026-01-09 ERROR Timeout while reading data
+Line 10: Invalid format -> 2026-01-10 INFO Application shutdown
+No valid log entries found.
+---- Error log started ----
+Line 7: Unknown log level -> CRITICAL
+Line 8: Unknown log level -> CRITICAL
