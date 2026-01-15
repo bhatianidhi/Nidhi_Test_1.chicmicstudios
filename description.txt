@@ -1,0 +1,10 @@
+content.txt - Contain task 1 ,note about venv and pyenv
+requirment.txt - contains requirement
+nlogfilecr - contain log file creation code 
+ni.log - log file created 
+nTask2.py - contain Task 2 assignment 
+ntask3.py - contain task 3 assignmrnt code
+logs_error.log - log file for storing logs_error
+nTask4.py - contain code for task4 assignment
+11.log - sample log file for task 4 implementation
+user_activity_report.txt - file for storing report of task 4

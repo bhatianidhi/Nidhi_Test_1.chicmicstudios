@@ -1,49 +1,109 @@
-lfile = input("Enter log file name: ")
+import logging
+import sys
 
-try:
-    f = open(lfile, "r")
-except FileNotFoundError:
-    print("File not found")
-    exit()
+logging.basicConfig(level=logging.WARNING, format="%(levelname)s: %(message)s")
 
-logs = []  
-l_counts = {"INFO": 0, "WARNING": 0, "ERROR": 0, "CRITICAL": 0} 
+ALL_LEVELS = ["INFO", "WARNING", "ERROR", "CRITICAL"]
+FLAGS = {"INFO": 1, "WARNING": 2, "ERROR": 4, "CRITICAL": 8}
+IMPORTANT_MASK = FLAGS["WARNING"] | FLAGS["ERROR"] | FLAGS["CRITICAL"]
 
-flags = {"INFO": 1, "WARNING": 2, "ERROR": 4, "CRITICAL": 8}
-important = flags["WARNING"] | flags["ERROR"] | flags["CRITICAL"]
-
-for line in f:
+def parse_line(line):
+    """
+    Parse a single log line in the format 'time - level - message'.
+    Returns dict with 'time', 'level', 'msg', 'flags', or None if malformed.
+    Logs a warning for malformed lines or unknown levels.
+    """
     line = line.strip()
     if not line:
-        continue
+        return None
 
-    parts = line.split(" - ")
+    parts = line.split(" - ", 2)
     if len(parts) != 3:
-        continue
+        logging.warning("Malformed line skipped: %s", line)
+        return None
 
-    time = parts[0].strip()
-    level = parts[1].strip()
-    msg = parts[2].strip()
+    time, level, msg = (p.strip() for p in parts)
+    level_upper = level.upper()
 
-    logs.append({"time": time, "level": level, "msg": msg})
+    if level_upper not in FLAGS:
+        logging.warning("Unknown log level '%s' in line: %s", level, line)
 
-    if level in l_counts:
-        l_counts[level] += 1
+    return {
+        "time": time,
+        "level": level_upper,
+        "msg": msg,
+        "flags": FLAGS.get(level_upper, 0)
+    }
 
-f.close()
 
-print("\nLog Summary")
-for level in l_counts:
-    print(level, ":", l_counts[level])
+def parse_logs(filename):
+    """
+    Parse log file.
+    Returns: logs_list, level_counts, malformed_count
+    Raises FileNotFoundError or OSError on file errors.
+    """
+    logs = []
+    l_counts = {lvl: 0 for lvl in ALL_LEVELS}
+    malformed_lines = 0
 
-print("\nImportant logs (WARNING, ERROR, CRITICAL):")
-for log in logs:
-    if flags.get(log["level"], 0) & important:
-        print(log["time"], "-", log["level"], "-", log["msg"])
+    with open(filename, "r", encoding="utf-8") as f:
+        for line in f:
+            if not line.strip():
+                continue
 
-print("\nAll ERROR messages:")
-for log in logs:
-    if log["level"] == "ERROR" and len(log["msg"]) > 0:
-        print("-", log["msg"])
+            record = parse_line(line)
+            if not record:
+                malformed_lines += 1
+                continue
 
-print("\nTotal logs stored in list:", len(logs))
+            logs.append(record)
+            if record["level"] in l_counts:
+                l_counts[record["level"]] += 1
+
+    return logs, l_counts, malformed_lines
+
+
+def main(filename=None):
+    """
+    Main entry point.
+    Returns exit code: 0=success, 1=empty filename, 2=file not found, 3=other file error
+    """
+    if filename is None:
+        filename = input("Enter log file name: ").strip()
+
+    if not filename:
+        print("Error: empty filename", file=sys.stderr)
+        return 1
+
+    try:
+        logs, l_counts, malformed_lines = parse_logs(filename)
+    except FileNotFoundError:
+        print(f"Error: file not found: {filename}", file=sys.stderr)
+        return 2
+    except OSError as e:
+        print(f"Error reading file {filename}: {e}", file=sys.stderr)
+        return 3
+
+    print("\nLog Summary")
+    for level in ALL_LEVELS:
+        print(f"{level}: {l_counts.get(level, 0)}")
+
+    print("\nImportant logs (WARNING, ERROR, CRITICAL):")
+    for log in logs:
+        if log.get("flags", 0) & IMPORTANT_MASK:
+            print(f"{log['time']} - {log['level']} - {log['msg']}")
+
+    print("\nAll ERROR messages:")
+    for log in logs:
+        if log["level"] == "ERROR" and log["msg"]:
+            print(f"- {log['msg']}")
+
+    print(f"\nTotal logs stored in list: {len(logs)}")
+    print(f"Malformed lines skipped: {malformed_lines}")
+
+    return 0
+
+
+if __name__ == "__main__":
+    exit_code = main()
+    sys.exit(exit_code)
